@@ -1,0 +1,41 @@
+.border{
+	border: 2px solid black;
+}
+
+.pad{
+	padding: 5px;
+}
+
+.fiveMargin{
+	margin: 5px 0px;
+}
+
+.alertIcon{
+	color:red;
+}
+
+.point{
+	cursor:pointer;
+}
+
+.depth{
+	box-shadow: .5px .5px .5px .5px grey;
+}
+
+.contact-appear {
+  opacity: 0.01;
+}
+
+.contact-appear.contact-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.contact-leave {
+  opacity: 1;
+}
+
+.contact-leave.contact-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-out;
+}
