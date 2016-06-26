@@ -72,27 +72,27 @@ export const CLOSE_SEARCH = 'CLOSE_SEARCH';
 export const EDIT = 'EDIT';
 
 export function openEdit(objID){
-  let id = uuid.v4();
+  //let id = uuid.v4();
 	return {
-	  id: id,
+	  //id: id,
 	  payload: objID,
 	  type: EDIT
 	}
 }
 
 export function searchContacts(name){
-  let id = uuid.v4();
+  //let id = uuid.v4();
 	return {
-	  id: id,
+	  //id: id,
 	  payload: name,
 	  type: SEARCH
 	}
 }
 
 export function closeSearch(){
-  let id = uuid.v4();
+  //let id = uuid.v4();
 	return {
-	  id: id,
+	  //id: id,
 	  type: CLOSE_SEARCH
 	}
 }
