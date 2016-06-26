@@ -21,8 +21,8 @@ export function contacts(
     error: null,
     search: null,
     editing: false,
-    contactToEdit: null}, action){
-  
+    contactToEdit: null
+  }, action){
   switch (action.type){
     case ActionTypes.CONTACTS_INIT:
       return update(state, {

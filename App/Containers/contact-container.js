@@ -18,7 +18,7 @@ export default class App extends Component {
       <div className='container pad'>
         <div className = 'row'>
           <div className='col-md-3'></div>
-            <div className='col-md-6 border pad'>
+            <div className='col-md-6 border pad depth'>
           	  <div className='col-md-6'>
                 <SearchBar
                   search = {this.props.search}

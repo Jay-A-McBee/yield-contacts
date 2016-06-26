@@ -22,7 +22,7 @@ export default class ContactForm extends Component{
     this.props.create(contactObj);
   }
   
-  render() {
+  render(){
     return (
       <div className='text-center fiveMargin'>
         Add Contact

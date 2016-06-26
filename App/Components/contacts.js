@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
-import { connect } from 'react-redux';
 import EditContact from '../Components/editContact';
 import ContactMaker from './contactMaker';
 
@@ -10,7 +9,7 @@ export default class Contacts extends Component {
 
     //contactElements-->results array of JSX elements from mapping over contactObjects
     //ContactMaker func-->contactMaker.js
-    //ES6 spread operator expands the array of contact JSX elements in the return call of the render function ln. 48
+    //ES6 spread operator expands the array of contact JSX elements in the return call of the render function ln. 26
   	let {contactToEdit, edit, remove, openEdit, editing} = this.props
     let contactElements = this.props.contacts.map( contactObj => ContactMaker(contactObj, remove, openEdit));
     
