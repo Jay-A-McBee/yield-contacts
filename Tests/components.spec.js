@@ -11,8 +11,7 @@ describe('<ContactForm/>', function () {
   });
 
   it('should have props for newContact and create', function () {
-    const wrapper = mount(<ContactForm/>);
-    console.log(wrapper.state());
+    const wrapper = shallow(<ContactForm/>);
     expect(wrapper.props().newContact).to.be.defined;
     expect(wrapper.props().create).to.be.defined;
   });
