@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function ContactMaker(contactObj, actionA, actionB){
 
+	let emailAddress = `mailto:${contactObj.email}`;
 
 	return(
 	  <div className='fiveMargin border pad depth' key={contactObj.id}>
@@ -19,7 +20,7 @@ export default function ContactMaker(contactObj, actionA, actionB){
 	        onClick = {() => 
 	        	actionB(contactObj.id)}>
 	      </i>
-	      <small>Email: {contactObj.email}</small>
+	      <small>Email: <a className='anchor' href={emailAddress}>{contactObj.email}</a></small>
 	    </div>
 	  </div>
 	)

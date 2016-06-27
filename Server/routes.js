@@ -12,7 +12,7 @@ module.exports = function(app){
 
 
 	app.get('/', function(req,res){
-		res.sendFile(Path.resolve(__dirname,'../src/client/public/index.html'));
+		res.sendFile(Path.resolve(__dirname,'../App/dist/index.html'));
 	});
     
     //gets all contacts

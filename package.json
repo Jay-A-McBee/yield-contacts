@@ -38,10 +38,13 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "devDependencies": {
+    "babel-preset-airbnb": "^2.0.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
+    "enzyme": "^2.3.0",
     "mocha": "^2.5.3",
     "nodemon": "^1.9.2",
+    "react-addons-test-utils": "^15.1.0",
     "webpack-dev-server": "^1.14.1"
   }
 }

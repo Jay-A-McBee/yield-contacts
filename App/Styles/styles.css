@@ -19,7 +19,7 @@
 }
 
 .depth{
-	box-shadow: .5px .5px .5px .5px grey;
+	box-shadow: 0px 2px 5px  grey;
 }
 
 .contact-appear {
@@ -38,4 +38,13 @@
 .contact-leave.contact-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-out;
+}
+
+h3{
+	color: #424242;
+}
+
+.anchor{
+	color: #1565C0;
+	text-decoration: underline;
 }

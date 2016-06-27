@@ -25,22 +25,20 @@ export default class ContactForm extends Component{
   render(){
     return (
       <div className='text-center fiveMargin'>
-        Add Contact
-        <br />
         <input 
           id='name' 
-          className='depth'
+          className='mdl-textfield__input'
           type='text' 
           placeholder='name'/>
         <br />
         <input 
           id='email' 
-          className='depth'
+          className='mdl-textfield__input'
           type='text' 
           placeholder='email'/>
         <br />
         <button 
-          className='btn btn-primary btn-block fiveMargin depth' 
+          className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent fiveMargin' 
           onClick={()=>this.handleSubmit(this.getVal())}>
           Save Contact
         </button>

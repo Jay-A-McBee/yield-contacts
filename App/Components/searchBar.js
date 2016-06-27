@@ -27,12 +27,12 @@ export default class SearchBar extends Component{
         <div className='text-center fiveMargin'>
           <input 
             id='search' 
-            className = 'depth'
+            className = 'mdl-textfield__input'
             placeholder='name' 
             type='text'/>
           <br />
           <button 
-            className='btn btn-primary btn-block fiveMargin depth' 
+            className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent fiveMargin' 
             onClick={ () => this.handleSubmit(this.getVal())}>
             Search
           </button>

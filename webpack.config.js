@@ -15,7 +15,7 @@ var config = {
   entry: APP_DIR + '/root.js',
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
 	module : {
 	loaders : [

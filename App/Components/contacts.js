@@ -16,7 +16,7 @@ export default class Contacts extends Component {
     return (
       <div>
         <div className='text-center border pad depth'>
-          <h2>Contacts</h2>
+          <h3 >Contacts</h3>
           {editing &&
             <EditContact
               contactToEdit = {contactToEdit}
