@@ -1,9 +1,20 @@
 import { createStore, applyMiddleware } from 'redux';
-import customThunk from '../Middleware/asyncMiddleware.js';
+import createSagaMiddleware from 'redux-saga';
+import contactSaga from '../Middleware/saga.js';
 
 export default function configureStore(initialState) {
-  return createStore(
-  	initialState,
-    applyMiddleware( customThunk )
-  );
+
+const sagaMiddleware = createSagaMiddleware();
+  
+let baseStore = createStore(
+	initialState,
+  applyMiddleware(sagaMiddleware)
+);
+
+sagaMiddleware.run( contactSaga );
+
+return baseStore;
+
 }
+
+

@@ -1,99 +1,99 @@
 'use strict'
 
-import * as ActionTypes from '../Actions/genericActions';
 import  update  from 'react-addons-update';
 
-//searches _store.contacts for contact with matching name
+//searches state.contacts for contact with matching name
 const findContact = function(state, name){
   var person = state.contacts.filter( conObj => conObj.name === name || conObj.name.toLowerCase() === name)[0];
   return person ? person : {name:'Contact is not registered'}
 }
 
-//searches _store.contacts for contact with matching id
+//searches state.contacts for contact with matching id
 const findEdit = function(state, id){
   return state.contacts.filter( conObj => conObj.id === id)[0];
 }
 
-export function contacts(
-  state = {
-    contacts: [], 
-    fetching: false, 
-    error: null,
-    search: null,
-    editing: false,
-    contactToEdit: null
-  }, action){
+const initialState = {
+  contacts: [], 
+  fetching: false, 
+  error: null,
+  search: null,
+  editing: false,
+  contactToEdit: null
+}
+
+export function contacts( state = initialState , action){
   switch (action.type){
-    case ActionTypes.CONTACTS_INIT:
+    case "CONTACTS_INIT":
       return update(state, {
         fetching:{$set:true}
       });
-    case ActionTypes.CONTACTS_SUCCESS:
+    case "CONTACTS_SUCCESS":
       return update(state,{
         fetching:{$set:false}, 
-        contacts:{$set:JSON.parse(action.response)}
+        contacts:{$set:JSON.parse(action.contacts)}
       });
-    case ActionTypes.CONTACTS_FAILURE:
+    case "CONTACTS_FAILURE":
       return update(state, {
       	fetching: {$set: !state.fetching}, 
-      	error: action.response.error
+      	error: action.error
       });
-    case ActionTypes.CREATE_CONTACT: 
+    case "CREATE_CONTACT": 
       return update(state, {
         fetching: {$set:true}
       });
-    case ActionTypes.CREATE_SUCCESS:
+    case "CREATE_SUCCESS":
 	    return update(state, {
 		  	fetching: {$set: !state.fetching}, 
-		  	contacts: {$set:JSON.parse(action.response)}
+		  	contacts: {$set:JSON.parse(action.contacts)}
     });
-	  case ActionTypes.CREATE_FAILURE:
+	  case "CREATE_FAILURE":
 	    return update(state, {
 		  	fetching: {$set:false}, 
-		  	error: {$set:action.response.error}
+		  	error: {$set:action.error}
     });
-    case ActionTypes.SEARCH: 
+    case "SEARCH": 
       return update(state, {
         search:{$set:findContact(state, action.payload)}
       });
-    case ActionTypes.CLOSE_SEARCH: 
+    case "CLOSE_SEARCH": 
       return update(state, {
         search: {$set: null}
       });
-    case ActionTypes.EDIT: 
+    case "EDIT": 
       return update(state, {
         editing: {$set:!state.editing}, 
         contactToEdit: {$set: findEdit(state, action.payload)}
       });
-    case ActionTypes.EDIT_CONTACT: 
+    case "EDIT_CONTACT": 
       return update(state, {
         fetching: {$set:true}
       });
-    case ActionTypes.EDIT_SUCCESS:
+    case "EDIT_SUCCESS":
       return update(state,{
         fetching: {$set: !state.fetching},
         editing: {$set: !state.editing},
         contactToEdit: {$set: null}, 
-        contacts: {$set: JSON.parse(action.response)}
+        contacts: {$set: JSON.parse(action.contacts)}
       });
-    case ActionTypes.EDIT_FAILURE:
+    case "EDIT_FAILURE":
       return update(state, {
         fetching: {$set:false}, 
-        error: {$set:action.response.error}
+        error: {$set:action.error}
       });
-    case ActionTypes.DELETE_CONTACT: 
+    case "DELETE_CONTACT": 
       return update(state, {
         fetching:{$set:true}
       });
-    case ActionTypes.DELETE_SUCCESS:
+    case "DELETE_SUCCESS":
       return update(state, {
         fetching: {$set: false}, 
-        contacts: {$set: JSON.parse(action.response)}
+        contacts: {$set: JSON.parse(action.contacts)}
       });
-    case ActionTypes.DELETE_FAILURE:
+    case "DELETE_FAILURE":
       return update(state, {
         fetching:{$set:false}, 
-        error: {$set: action.response.error}
+        error: {$set: action.error}
       });
 	  default:
 	   return state;
