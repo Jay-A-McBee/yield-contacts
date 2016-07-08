@@ -17,6 +17,10 @@ app.use(bodyParser.json());
 
 app.use(express.static('../App'));
 
+app.use(function(err,req,res,next){
+	res.send(err);
+})
+
 require('./routes')(app);
 
 var port = process.env.PORT || 3000;

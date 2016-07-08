@@ -9,9 +9,7 @@ import * as actions from '../Actions/genericActions';
 
 export default class App extends Component {
 
-	componentWillMount(){
-    this.props.get();
-  }
+	
 
   render () {
     return(
@@ -37,6 +35,7 @@ export default class App extends Component {
                   openEdit = {this.props.openEdit}
                   edit = {this.props.edit}
                   remove = {this.props.remove}
+                  get = {this.props.get}
                 />
               </div>
             </div>
@@ -82,6 +81,7 @@ function mapStateToProps(state){
 //This is the react/redux lib **magic**. Connect-->higher order component that
 //returns component(ex. App) that is 'connected' to store. The App component is subscribed to 
 //state now. Any change to state causes mapStateToProps to execute and changes are passed to children.
-export default connect(mapStateToProps,
+export default connect(
+  mapStateToProps,
 	mapDispatchToProps)(App);
 

@@ -2,12 +2,6 @@
 
 import  update  from 'react-addons-update';
 
-//searches state.contacts for contact with matching name
-const findContact = function(state, name){
-  var person = state.contacts.filter( conObj => conObj.name === name || conObj.name.toLowerCase() === name)[0];
-  return person ? person : {name:'Contact is not registered'}
-}
-
 //searches state.contacts for contact with matching id
 const findEdit = function(state, id){
   return state.contacts.filter( conObj => conObj.id === id)[0];
@@ -28,12 +22,14 @@ export function contacts( state = initialState , action){
       return update(state, {
         fetching:{$set:true}
       });
-    case "CONTACTS_SUCCESS":
+    case "CONTACT_REQUEST":
+      return state;
+    case "CONTACT_SUCCESS":
       return update(state,{
         fetching:{$set:false}, 
-        contacts:{$set:JSON.parse(action.contacts)}
+        contacts:{$set:JSON.parse(action.response)}
       });
-    case "CONTACTS_FAILURE":
+    case "CONTACT_FAILURE":
       return update(state, {
       	fetching: {$set: !state.fetching}, 
       	error: action.error
@@ -42,20 +38,34 @@ export function contacts( state = initialState , action){
       return update(state, {
         fetching: {$set:true}
       });
+    case "CREATE_REQUEST":
+      return state;
     case "CREATE_SUCCESS":
 	    return update(state, {
 		  	fetching: {$set: !state.fetching}, 
-		  	contacts: {$set:JSON.parse(action.contacts)}
+		  	contacts: {$set:JSON.parse(action.response)}
     });
 	  case "CREATE_FAILURE":
 	    return update(state, {
 		  	fetching: {$set:false}, 
 		  	error: {$set:action.error}
     });
-    case "SEARCH": 
+    case "SEARCH_CONTACT": 
+      return state;
+    case "SEARCH_REQUEST":
       return update(state, {
-        search:{$set:findContact(state, action.payload)}
-      });
+        fetching: {$set:!state.fetching}
+      })
+    case "SEARCH_SUCCESS":
+      return update(state,{
+        fetching: {$set: !state.fetching},
+        search: {$set: JSON.parse(action.response)}
+      })
+    case "SEARCH_FAILURE":
+      return update(state, {
+        fetching: {$set: !state.fetching},
+        error: {$set: JSON.parse(action.error)}
+      })
     case "CLOSE_SEARCH": 
       return update(state, {
         search: {$set: null}
@@ -69,12 +79,14 @@ export function contacts( state = initialState , action){
       return update(state, {
         fetching: {$set:true}
       });
+    case "EDIT REQUEST":
+      return state;
     case "EDIT_SUCCESS":
       return update(state,{
         fetching: {$set: !state.fetching},
         editing: {$set: !state.editing},
         contactToEdit: {$set: null}, 
-        contacts: {$set: JSON.parse(action.contacts)}
+        contacts: {$set: JSON.parse(action.response)}
       });
     case "EDIT_FAILURE":
       return update(state, {
@@ -85,10 +97,12 @@ export function contacts( state = initialState , action){
       return update(state, {
         fetching:{$set:true}
       });
+    case "DELETE_REQUEST":
+      return state;
     case "DELETE_SUCCESS":
       return update(state, {
         fetching: {$set: false}, 
-        contacts: {$set: JSON.parse(action.contacts)}
+        contacts: {$set: JSON.parse(action.response)}
       });
     case "DELETE_FAILURE":
       return update(state, {

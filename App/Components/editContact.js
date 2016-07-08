@@ -8,20 +8,20 @@ export default class EditContact extends Component{
 
   getVal(){
   	return {
-      name: document.getElementById('editName').value.trim(),
-  	  email: document.getElementById('editEmail').value.trim()
+      name: this.refs.editName.value.trim(),
+  	  email: this.refs.editEmail.value.trim()
   	}
   }
 
   clearVal(){
-    document.getElementById('name').value = '';
-    document.getElementById('email').value = '';
+    this.refs.editName.value = '';
+    this.refs.editEmail.value = '';
   }
   
   handleSubmit(contactObj){
     this.clearVal();
     contactObj.id = this.props.contactToEdit.id;
-  	this.props.edit(contactObj);
+  	this.props.edit({body:JSON.stringify(contactObj)});
   }
   
   render() {
@@ -38,13 +38,13 @@ export default class EditContact extends Component{
         <div className='text-center pad'>
         <br />
           <input 
-            id='editName'
+            ref='editName'
             className="mdl-textfield__input"
             type='text' 
             defaultValue = {name}/>
         <br />
           <input 
-            id='editEmail'
+            ref='editEmail'
             className="mdl-textfield__input"
             type='text' 
             defaultValue = {email}/> 

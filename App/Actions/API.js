@@ -4,35 +4,39 @@ let contactsAPI = {};
 
 const config = {
 	credentials: 'include',
-	method: null,
 	headers: {
 	  'Accept': 'application/json',
 	  'Content-Type': 'application/json'      
 	}
 }
 
-let baseURL = 'http://localhost:3000/'
+let baseURL = 'http://localhost:3000/';
 
-contactsAPI.getContacts = function(){
-	config.method = 'GET';
-	return fetch(baseURL + 'contacts', config)
+const callApi = (endpoint, verb, body) => {
+  
+  let finalConfig = Object.assign({}, config, verb, body);
+	
+	return fetch(baseURL + endpoint, finalConfig)
+	  .then( response => 
+	  	response.text()
+	  	  .then( text => ({text,response}))
+	  )
+	  .then(({text,response}) => {
+	  	if(!response.ok){
+	  		return Promise.reject(text);
+	  	}
+	  	return text;
+	  })
 }
 
-contactsAPI.createContact = function(contact){
-	config.method = 'POST';
-	config.body = contact;
-	return fetch(baseURL + 'contacts', config)
-}
+contactsAPI.getContacts = () => callApi('contacts', {method: 'GET'});
 
-contactsAPI.editContact = function(contact){
-	config.method = 'PUT';
-	config.body = contact;
-	return fetch(baseURL + 'contacts', config)
-}
+contactsAPI.createContact = (contact) => callApi('contacts', {method: 'POST'}, contact);
 
-contactsAPI.deleteContact = function(contactID){
-	config.method = 'DELETE';
-	return fetch(baseURL + 'contacts?id='+ contactID, config)
-}
+contactsAPI.editContact = (contact) => callApi('contacts', {method: 'PUT'}, contact);
+
+contactsAPI.deleteContact = (contactID) => callApi('contacts?id=' + contactID, {method:'DELETE'});
+
+contactsAPI.searchContact = (name) => callApi('contacts/search?name=' + name, {method:'GET'});
 
 module.exports = contactsAPI;

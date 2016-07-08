@@ -25,12 +25,12 @@ const wrap = (fn) => {
   }
 }
 
-wrap(function* dbInit(){
-  yield[
+(wrap(function* dbInit(){
+  yield*[
     connect(),
     execute(db),
     execute(table)
   ]
-})
+}))()
 
 module.exports  = client;

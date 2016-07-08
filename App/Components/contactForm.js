@@ -19,7 +19,7 @@ export default class ContactForm extends Component{
   
   handleSubmit(contactObj){
     this.clearVal();
-    this.props.create(contactObj);
+    this.props.create({body: JSON.stringify(contactObj)});
   }
   
   render(){

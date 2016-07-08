@@ -1,58 +1,92 @@
-import { takeEvery } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { take, put, call, fork} from 'redux-saga/effects'
 
 import contactsAPI from '../Actions/API';
+import * as actions from '../Actions/genericActions';
 
 //generators--yield call in asyncMETHOD returns promise object
 //subsequent asyncMETHOD.text() resolves the promise and unwraps value
 
+const {get, create, edit, remove, search} = actions;
 
-function* fetchContacts(action){
-	try {
-	  const asyncGET = yield call(contactsAPI.getContacts);
-	  const contacts = yield asyncGET.text();
-	  yield put({type: 'CONTACTS_SUCCESS', contacts: contacts})
-	} catch(e) {
-		yield put({type: 'CONTACTS_FAILURE', error: e})
-	}
+function* fetchEntity(entity, apiFn, id) {
+  yield put( entity.request(id) )
+  
+  const response = yield call(apiFn,id)
+  
+  if(response)
+    yield put( entity.success(response) )
+  else
+    yield put( entity.failure(id, error) )
 }
 
-function* createContacts(action){
-	try {
-	  const asyncPOST = yield call(contactsAPI.createContact, action.body);
-	  const updatedContacts = yield asyncPOST.text();
-	  yield put({type: 'CREATE_SUCCESS', contacts: updatedContacts});
-	} catch(e) {
-		yield put({type: 'CREATE_FAILURE', error: e});
-	}
+const getContacts = fetchEntity.bind(null, get, contactsAPI.getContacts);
+const makeContact = fetchEntity.bind(null, create, contactsAPI.createContact);
+const removeContact = fetchEntity.bind(null, remove, contactsAPI.deleteContact);
+const alterContact = fetchEntity.bind(null, edit, contactsAPI.editContact);
+const findContact = fetchEntity.bind(null, search, contactsAPI.searchContact);
+
+
+function* fetchContacts(action){
+	yield call(getContacts);
+}
+
+function* createContact(contact){
+	yield call(makeContact,contact)
 }
 
 function* deleteContact(action){
-	try {
-		const asyncDEL = yield call(contactsAPI.deleteContact, action.contactID);
-		const updatedContacts = yield asyncDEL.text();
-		yield put({type: 'DELETE_SUCCESS', contacts: updatedContacts})
-	} catch(e) {
-		yield put({type: 'DELETE_FAILURE', error: e});
-	}
+  yield call(removeContact, action)
 }
 
-function* editContact(action){
-	try{
-		const asyncPUT = yield call(contactsAPI.editContact, action.body);
-		const updatedContacts = yield asyncPUT.text();
-		yield put({type: 'EDIT_SUCCESS', contacts: updatedContacts})
-	} catch(e) {
-		yield put({type: 'EDIT_FAILURE', error:e})
-	}
+function* editContact(contact){
+  yield call(alterContact, contact)
+}
+
+function* seekContact(name){
+  yield call(findContact, name)
+}
+
+function* watchFetch() {
+  while(true) {
+    yield take(actions.CONTACTS_INIT)
+    yield fork(fetchContacts)
+  }
+}
+function* watchCreate() {
+  while(true){
+    const {contact} = yield take(actions.CREATE_CONTACT);
+    yield fork(createContact,contact)
+  }
+}
+
+function* watchDelete() {
+  while(true) {
+    const {contactID} = yield take(actions.DELETE_CONTACT)
+    yield fork(deleteContact, contactID)
+  }
+}
+
+function* watchEdit() {
+  while(true) {
+    const {editedContact} = yield take(actions.EDIT_CONTACT)
+    yield fork(editContact, editedContact)
+  }
+}
+
+function* watchSearch() {
+  while(true) {
+    const {name} = yield take(actions.SEARCH_CONTACT)
+    yield fork(seekContact, name)
+  }
 }
 
 function* contactSaga(){
-	yield[
-	  takeEvery('CONTACTS_INIT', fetchContacts),
-    takeEvery('CREATE_CONTACT', createContacts),
-    takeEvery('DELETE_CONTACT', deleteContact),
-    takeEvery('EDIT_CONTACT', editContact)
+	yield*[
+	  fork(watchFetch),
+    fork(watchCreate),
+    fork(watchDelete),
+    fork(watchEdit), 
+    fork(watchSearch)
   ]
 }
 
