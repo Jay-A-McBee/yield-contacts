@@ -14,12 +14,23 @@ export default class Contacts extends Component {
     //contactElements-->results array of JSX elements from mapping over contactObjects
     //ContactMaker func-->contactMaker.js
     //ES6 spread operator expands the array of contact JSX elements in the return call of the render function ln. 26
-  	let {contactToEdit, edit, remove, openEdit, editing, contacts} = this.props
-    let contactElements = contacts.map( contactObj => ContactMaker(contactObj, remove, openEdit));
+  	let {contactToEdit, 
+        edit, 
+        remove, 
+        openEdit, 
+        editing, 
+        contacts} = this.props
+    
+    let contactElements = contacts.map( contactObj => {
+      
+      let finalProps = Object.assign({},contactObj,{remove,openEdit})
+      
+      return(  <ContactMaker {...finalProps}/> );
+    })
     
     return (
       <div>
-        <div className='text-center border pad depth'>
+        <div className='text-center border pad'>
           <h3 >Contacts</h3>
           {editing &&
             <EditContact

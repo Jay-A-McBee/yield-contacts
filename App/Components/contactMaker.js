@@ -1,26 +1,26 @@
 import React from 'react';
 
-export default function ContactMaker(contactObj, actionA, actionB){
+export default function ContactMaker({email,id,name,remove,openEdit}){
 
-	let emailAddress = `mailto:${contactObj.email}`;
+	let emailAddress = `mailto:${email}`;
 
 	return(
-	  <div className='fiveMargin border pad depth' key={contactObj.id}>
+	  <div className='fiveMargin greenBorder pad ' key={id}>
 	    <div>
 	      <i 
 	        className = 'glyphicon glyphicon-remove-circle pull-right alertIcon point' 
 	        onClick = {() => 
-	        	actionA(contactObj.id)}>
+	        	remove(id)}>
 	      </i>
-	      <small>Name: {contactObj.name}</small>
+	      <small>Name: {name}</small>
 	    </div>
 	    <div>
 	      <i 
 	        className = 'glyphicon glyphicon-pencil pull-right point' 
 	        onClick = {() => 
-	        	actionB(contactObj.id)}>
+	        	openEdit(id)}>
 	      </i>
-	      <small>Email: <a className='anchor' href={emailAddress}>{contactObj.email}</a></small>
+	      <small>Email: <a className='anchor' href={emailAddress}>{email}</a></small>
 	    </div>
 	  </div>
 	)
